@@ -28,6 +28,17 @@ exports.getUserById = async (req, res) => {
   }
 };
 
+// API lấy thông tin tất cả người dùng
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await Users.findAll();
+    res.json(users);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+
 // Quên mật khẩu
 exports.forgotPassword = async (req, res) => {
   try {

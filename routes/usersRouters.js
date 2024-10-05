@@ -8,18 +8,20 @@ const crypto = require('crypto');
 //http://localhost:3000/users/:id
 router.get('/:id', usersController.getUserById);
 
+//show tất cả người dùng
+//http://localhost:3000/users
+router.get('/', usersController.getAllUsers);
+
 // Đăng ký tài khoản
 //http://localhost:3000/users/register
 router.post('/register', upload.single('hinh_anh'), usersController.register);
 
 // Đăng nhập tài khoản
 //http://localhost:3000/users/login
-
 // {
 //     "email": "nguyentai12a72122@gmail.com",
 //     "mat_khau": "1111111111"
 // }
-
 router.post('/login', usersController.login);
 
 //quên mật khẩu
