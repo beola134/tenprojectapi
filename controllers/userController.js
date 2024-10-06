@@ -53,10 +53,9 @@ exports.forgotPassword = async (req, res) => {
       .createHash("sha256")
       .update(resetToken)
       .digest("hex");
-    const resetPasswordExpire = Date.now() + 10 * 60 * 1000;//thời gian hết hạn token 10 phút
-
+    const resetPasswordExpire = Date.now() + 2 * 60 * 1000; 
     user.resetPasswordToken = resetPasswordToken;
-    user.resetPasswordExpires = new Date(resetPasswordExpire);
+    user.resetPasswordExpires = new Date(resetPasswordExpire);//
     await user.save();
 
     const resetUrl = `http://localhost:3000/users/resetpassword/${resetToken}`;
@@ -134,7 +133,6 @@ exports.resetPassword = async (req, res) => {
     if (!mat_khau) {
       return res.status(400).json({ message: "Mật khẩu không được để trống" });
     }
-
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(mat_khau, salt);
     user.mat_khau = hashPassword;
@@ -152,11 +150,23 @@ exports.resetPassword = async (req, res) => {
 // Đăng ký tài khoản
 exports.register = async (req, res) => {
   try {
-    const { ten_dang_nhap, mat_khau, ho_ten, email, dia_chi, dien_thoai } =
-      req.body;
+    const {
+      ten_dang_nhap,
+      mat_khau,
+      nhap_lai_mat_khau,
+      email,
+    } = req.body;
+    
     const hinh_anh = req.file ? req.file.filename : null; // Lấy tên tệp hình ảnh đã tải lên
-
     const quyen = req.body.quyen || "2"; // Đặt giá trị mặc định là '2' nếu không được cung cấp
+
+    // Kiểm tra mật khẩu và nhập lại mật khẩu có khớp hay không
+    if (mat_khau !== nhap_lai_mat_khau) {
+      return res.status(400).json({
+        message: "Mật khẩu và nhập lại mật khẩu không khớp",
+      });
+    }
+
     // Kiểm tra xem email đã được sử dụng chưa
     const emailExist = await Users.findOne({ where: { email } });
     if (emailExist) {
@@ -164,20 +174,20 @@ exports.register = async (req, res) => {
         message: "Email đã tồn tại",
       });
     }
+
     // Tạo mật khẩu bảo mật
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(mat_khau, salt);
+
     // Tạo người dùng mới
     const user = await Users.create({
       ten_dang_nhap,
       mat_khau: hashPassword,
-      ho_ten,
       email,
-      dia_chi,
-      dien_thoai,
       hinh_anh,
       quyen,
     });
+
     res.status(200).json({
       message: "Đăng ký tài khoản thành công",
       data: user,

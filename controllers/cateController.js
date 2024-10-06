@@ -11,6 +11,8 @@ exports.getAllCates = async (req, res) => {
   }
 };
 
+
+
 // Hàm xử lý việc thêm danh mục với hình ảnh
 exports.addCate = async (req, res) => {
   try {
@@ -29,6 +31,7 @@ exports.addCate = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 
 // Hàm xử lý việc xóa danh mục
 exports.deleteCate = async (req, res) => {

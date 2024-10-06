@@ -11,11 +11,12 @@ const User = sequelize.define('User', {
     },
     ten_dang_nhap: {
         type: DataTypes.STRING(255),
-        allowNull: true
+        allowNull: false
+
     },
     mat_khau: {
         type: DataTypes.STRING(255),
-        allowNull: true
+        allowNull: false
     },
     ho_ten: {
         type: DataTypes.STRING(255),
@@ -23,7 +24,7 @@ const User = sequelize.define('User', {
     },
     email: {
         type: DataTypes.STRING(255),
-        allowNull: true
+        allowNull: false
     },
     dia_chi: {
         type: DataTypes.TEXT,
@@ -46,7 +47,7 @@ const User = sequelize.define('User', {
         type: DataTypes.STRING(255),
         allowNull: true
     },
-    resetPasswordExpires: {
+    resetPasswordExpires: {  //này là
         type: DataTypes.DATE,
         allowNull: true
     }
