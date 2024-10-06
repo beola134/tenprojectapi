@@ -11,8 +11,6 @@ exports.getAllCates = async (req, res) => {
   }
 };
 
-
-
 // Hàm xử lý việc thêm danh mục với hình ảnh
 exports.addCate = async (req, res) => {
   try {
@@ -67,7 +65,6 @@ exports.updateCate = async (req, res) => {
       cate.hinh_anh = req.file ? req.file.originalname : cate.hinh_anh;
       // Lưu thay đổi
       await cate.save();
-      // Trả về kết quả
       res.json(cate);
     });
   } catch (error) {

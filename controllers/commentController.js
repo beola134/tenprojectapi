@@ -2,7 +2,7 @@ const CMT = require('../models/comment');
 const Product = require('../models/product');
 const Users = require("../models/users");
 
-//thêm bình luận kiểm tra có tồn tại sản phẩm không và có tồn tại người dùng không
+//Bình luận sản phẩm theo _id sản phẩm và _id người dùng
 exports.addComment = async (req, res) => {
     try {
         const { id_san_pham, id_nguoi_dung, noi_dung, sao } = req.body;
