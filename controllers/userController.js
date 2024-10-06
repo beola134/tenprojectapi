@@ -174,11 +174,9 @@ exports.register = async (req, res) => {
         message: "Email đã tồn tại",
       });
     }
-
     // Tạo mật khẩu bảo mật
     const salt = await bcrypt.genSalt(10);
     const hashPassword = await bcrypt.hash(mat_khau, salt);
-
     // Tạo người dùng mới
     const user = await Users.create({
       ten_dang_nhap,
@@ -217,13 +215,10 @@ exports.login = async (req, res) => {
         message: "Mật khẩu không hợp lệ",
       });
     }
-
     // Tạo và gửi token
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
       expiresIn: "1h",
     });
-
-    // In ra thông tin đăng nhập
     const userInfo = {
       _id: user._id,
       ten_dang_nhap: user.ten_dang_nhap,
@@ -281,4 +276,33 @@ exports.changePassword = async (req, res) => {
   }
 };
 
+//cập nhật user hinh_anh dùng thư viện multer
 
+exports.updateUser = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const user = await Users.findByPk(id);
+    if (!user) {
+      return res.status(404).json({
+        message: "Người dùng không tồn tại",
+      });
+    }
+    const hinh_anh = req.file ? req.file.filename : user.hinh_anh;
+    const { ten_dang_nhap, ho_ten, email, dia_chi, dien_thoai } = req.body;
+    user.ten_dang_nhap = ten_dang_nhap || user.ten_dang_nhap;
+    user.ho_ten = ho_ten || user.ho_ten;
+    user.email = email || user.email;
+    user.dia_chi = dia_chi || user.dia_chi;
+    user.dien_thoai = dien_thoai || user.dien_thoai;
+    user.hinh_anh = hinh_anh;
+    await user.save();
+    res.status(200).json({
+      message: "Cập nhật người dùng thành công",
+      data: user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+}

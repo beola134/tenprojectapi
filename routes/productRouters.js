@@ -35,7 +35,7 @@ router.delete('/deletesp/:id', productController.deleteProduct);
 router.put('/updatesp/:id', productController.updateProduct);
 
 //phân trang sản phẩm
-//http://localhost:3000/product/page
+//http://localhost:3000/product/page?page=1&limit=1
 router.get('/page', productController.getProductsByPage);
 
 //  //api tìm kiếm sản phẩm bằng cách nhập tên sản phẩm và tên danh mục dùng post

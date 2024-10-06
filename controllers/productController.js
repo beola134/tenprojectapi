@@ -242,13 +242,17 @@ exports.updateProduct = async (req, res) => {
 //phân trang sản phẩm
 exports.getProductsByPage = async (req, res) => {
   try {
-    const { page = 1, limit = 10 } = req.query;
+    const { page = 1, limit = 2 } = req.query;
     const products = await Product.findAndCountAll({
       limit: Number(limit),
       offset: (page - 1) * limit,
     });
+    if (products.count === 0) {
+      return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
+    }
     res.json(products);
   } catch (error) {
+    console.error('Error fetching products:', error.message);
     res.status(500).json({ error: error.message });
   }
 };
@@ -257,7 +261,6 @@ exports.getProductsByPage = async (req, res) => {
 exports.searchProducts = async (req, res) => {
   try {
     const { query } = req.body;
-
     // Tìm danh mục theo tên
     const categories = await Category.findAll({
       where: {
@@ -266,7 +269,6 @@ exports.searchProducts = async (req, res) => {
         },
       },
     });
-
     // Tìm sản phẩm theo tên hoặc theo danh mục
     const products = await Product.findAll({
       where: {

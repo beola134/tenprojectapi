@@ -36,6 +36,11 @@ router.put('/resetpassword/:resetToken', usersController.resetPassword);
 //http://localhost:3000/users/changepassword
 router.put('/changepassword', usersController.changePassword);
 
+
+//cap nhat thong tin nguoi dung
+//http://localhost:3000/users/update/:id
+router.put('/update/:id', upload.single('hinh_anh'), usersController.updateUser);
+
 //api gửi mã về số điện thoại
 //http://localhost:3000/users/sendotp
 // router.post('/sendotp', usersController.sendOTP);
