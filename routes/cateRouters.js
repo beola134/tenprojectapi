@@ -14,5 +14,5 @@ router.delete('/deletecate/:id', cateController.deleteCate);
 //http://localhost:3000/cate/updatecate
 router.put('/updatecate/:id', cateController.updateCate);
 
-
+//
 module.exports = router;

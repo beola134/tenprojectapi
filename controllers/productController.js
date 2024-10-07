@@ -34,6 +34,16 @@ exports.getProductsByGioiTinhNu = async (req, res) => {
   }
 };
 
+//lấy sản phẩm theo gioi_tinh Đồng hồ đôi
+exports.getProductsByGioiTinhDoiHon = async (req, res) => {
+  try {
+    const products = await Product.findAll({ where: { gioi_tinh: "Đồng hồ đôi" } });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 //lấy sản phẩm theo gioi_tinh Unisex
 exports.getProductsByGioiTinhUnisex = async (req, res) => {
   try {
@@ -69,6 +79,141 @@ exports.getProductsByGioiTinhNuNew = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+//show sản phẩm mới theo ngày trong gioi_tinh unisex
+exports.getProductsByGioiTinhUnisexNew = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: { gioi_tinh: "Unisex" },
+      order: [["createdAt", "DESC"]],
+    });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+//show sản phẩm mới theo ngày trong gioi_tinh Đồng hồ đôi
+exports.getProductsByGioiTinhDoiHonNew = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: { gioi_tinh: "Đồng hồ đôi" },
+      order: [["createdAt", "DESC"]],
+    });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+//show sản phẩm có gia_giam từ 10000000 đến 20000000
+exports.getProductsByGiaGiam = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: {
+        gia_giam: {
+          [Op.between]: [10000000, 20000000],
+        },
+      },
+    });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+//show sản phẩm có mức giá dưới 2000000
+exports.getProductsByGiaDuoi2tr = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: {
+        gia_giam: {
+          [Op.lt]: 2000000,
+        },
+      },
+    });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+//show sản phẩm có giá trên 2000000
+exports.getProductsByGiaTren2tr = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: {
+        gia_giam: {
+          [Op.gt]: 2000000,
+        },
+      },
+    });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+//show sản phẩm có loai_may là Quartz (Máy pin - điện tử)
+exports.getProductsByLoaiMayQuartz = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: { loai_may: "Quartz (Máy pin - điện tử)" },
+    });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+//show sản phẩm có chất liệu dây là Thép không gỉ
+exports.getProductsByChatLieuDayDa = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: { chat_lieu_day: "Dây da" },
+    });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+//show sản phẩm có mat_kinh là Kính Sapphire
+exports.getProductsByMatKinhSapphire = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: { mat_kinh: "Sapphire" },
+    });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+//show sản phẩm có màu mặt là Trắng
+exports.getProductsByMauMatTrang = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: { mau_mat: "Trắng" },
+    });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+//show sản phẩm có phong_cach Sang trọng
+exports.getProductsByPhongCachSangTrong = async (req, res) => {
+  try {
+    const products = await Product.findAll({
+      where: { phong_cach: "Sang trọng" },
+    });
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
 
 //show sản phẩm theo danh mục show lun thông tin danh mục sản phẩm
 exports.getProductsByCate = async (req, res) => {
